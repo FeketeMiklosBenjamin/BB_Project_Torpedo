@@ -20,5 +20,29 @@ namespace Torpedo_Project
         {
             InitializeComponent();
         }
+
+        private void keyPress_Click(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            window.KeyDown += HandleKeyPress;
+        }
+        private void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                homeWindow oldal = new homeWindow();
+                oldal.Owner = this.Owner;
+                oldal.Show();
+                this.Close();
+            }
+        }
+
+        private void startBtn_Click(object sender, RoutedEventArgs e)
+        {
+            homeWindow oldal = new homeWindow();
+            oldal.Owner = this.Owner;
+            oldal.Show();
+            this.Close();
+        }
     }
 }

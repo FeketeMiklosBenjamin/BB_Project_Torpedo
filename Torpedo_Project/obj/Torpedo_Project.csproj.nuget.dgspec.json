@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\12.A\\BB_Project_Torpedo\\Torpedo_Project\\Torpedo_Project.csproj": {}
+    "C:\\BB_Project_Torpedo\\Torpedo_Project\\Torpedo_Project.csproj": {}
   },
   "projects": {
-    "D:\\12.A\\BB_Project_Torpedo\\Torpedo_Project\\Torpedo_Project.csproj": {
+    "C:\\BB_Project_Torpedo\\Torpedo_Project\\Torpedo_Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\12.A\\BB_Project_Torpedo\\Torpedo_Project\\Torpedo_Project.csproj",
+        "projectUniqueName": "C:\\BB_Project_Torpedo\\Torpedo_Project\\Torpedo_Project.csproj",
         "projectName": "Torpedo_Project",
-        "projectPath": "D:\\12.A\\BB_Project_Torpedo\\Torpedo_Project\\Torpedo_Project.csproj",
-        "packagesPath": "C:\\Users\\Benjamin\\.nuget\\packages\\",
-        "outputPath": "D:\\12.A\\BB_Project_Torpedo\\Torpedo_Project\\obj\\",
+        "projectPath": "C:\\BB_Project_Torpedo\\Torpedo_Project\\Torpedo_Project.csproj",
+        "packagesPath": "C:\\Users\\feket\\.nuget\\packages\\",
+        "outputPath": "C:\\BB_Project_Torpedo\\Torpedo_Project\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Benjamin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\feket\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,7 +62,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

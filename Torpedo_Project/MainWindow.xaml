@@ -5,8 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Torpedo_Project"
         mc:Ignorable="d"
-        Title="Torpedó" Height="450" Width="800">
-    <Grid>
+        Title="Torpedó" Height="200" Width="350">
+    <Grid Background="LightBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <UserControl Loaded="keyPress_Click"/>
+        <Label Content="Torpedó" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Grid.Row="0"/>
+        <StackPanel Grid.Row="1">
+            <Button x:Name="startBtn" Content="START" Height="30" Width="50" Margin="10" Click="startBtn_Click"/>
+            <Label Content="A kezdéshez nyomja meg a START gombot, vagy az ENTERT-t!" FontSize="9" HorizontalAlignment="Center" FontStyle="Italic"/>
+        </StackPanel>
 
     </Grid>
 </Window>
