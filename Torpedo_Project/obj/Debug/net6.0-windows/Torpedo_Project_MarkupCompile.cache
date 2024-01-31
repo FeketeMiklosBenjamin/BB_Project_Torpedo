@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\12A\Projektek\BB_Project_Torpedo\Torpedo_Project\obj\Debug\net6.0-windows\
+C:\BB_Project_Torpedo\Torpedo_Project\obj\Debug\net6.0-windows\
 Torpedo_Project
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\12A\Projektek\BB_Project_Torpedo\Torpedo_Project\App.xaml
-2252532518
+C:\BB_Project_Torpedo\Torpedo_Project\App.xaml
+3-754967263
 
-5-110605335
+7-877792059
 194258113564
-homeWindow.xaml;MainWindow.xaml;
+gameWindow.xaml;homeWindow.xaml;MainWindow.xaml;
 
 False
 

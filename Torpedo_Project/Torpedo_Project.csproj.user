@@ -7,11 +7,17 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="gameWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="homeWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="gameWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="homeWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\BB_Project_Torpedo\Torpedo_Project\App.xaml
-2252532518
+3-754967263
 
-7249586138
+9-517600586
 194258113564
-homeWindow.xaml;MainWindow.xaml;
+gameWindow.xaml;homeWindow.xaml;MainWindow.xaml;
 
 False
 
