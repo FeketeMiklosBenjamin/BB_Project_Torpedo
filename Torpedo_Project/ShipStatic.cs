@@ -12,6 +12,6 @@ namespace Torpedo_Project
         public static int[,] shipsPositions;
         public static Canvas canvas;
         public static bool isCheckboxChecked;
-
+        public static Dictionary<int, string> shipsDatas = new Dictionary<int, string>();
     }
 }

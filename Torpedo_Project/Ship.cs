@@ -22,6 +22,7 @@ namespace Torpedo_Project
         //public string imgSource { get; set; }
 
         private Rectangle ship;
+        private int shipId;
         private int shipSize;
         private int shipWidth;
         private int shipHeight;
@@ -35,8 +36,9 @@ namespace Torpedo_Project
 
         private bool _isRectDragInProg;
 
-        public Ship(int size, int height, int left, int top)
+        public Ship(int size, int height, int left, int top, int id)
         {
+            shipId = id;
             shipDefaultLeft = shipLeft = left;
             shipDefaultTop = shipTop = top;
             shipWidth = size * 30;
@@ -69,13 +71,14 @@ namespace Torpedo_Project
         {
             shipTop = Canvas.GetTop(ship);
             shipLeft = Canvas.GetLeft(ship);
-            if (shipLeft < 236 || shipLeft > 550 || shipTop < 0 || shipTop > 310)
+            if (shipLeft < 266 || shipLeft > 580 || shipTop < 25 || shipTop > 340)
             {
                 if (shipXStartPosition != -1)
                 {
                     modifyShipPosition(true, false);
                 }
                 placeShipDefaultPosition();
+                changeShipData();
             }
             else
             {
@@ -124,15 +127,15 @@ namespace Torpedo_Project
         {
             int xIndex = 1;
             int yIndex = 1;
-            for (int x = 250; x < 550; x += 30)
+            for (int x = 280; x < 580; x += 30)
             {
-                if ((x + shipWidth) <= 550)
+                if ((x + shipWidth) <= 580)
                 {
                     if (shipLeft + 15 > x && shipLeft + 15 < (x + 30))
                     {
-                        for (int y = 10; y < 310; y += 30)
+                        for (int y = 40; y < 340; y += 30)
                         {
-                            if ((y + shipHeight) <= 310)
+                            if ((y + shipHeight) <= 340)
                             {
                                 if (shipTop + 15 > y && shipTop + 15 < (y + 30))
                                 {
@@ -144,6 +147,7 @@ namespace Torpedo_Project
                                     shipYStartPosition = yIndex;
                                     if (modifyShipPosition(false, false))
                                     {
+                                        changeShipData();
                                         Canvas.SetLeft(ship, x);
                                         shipLeft = x;
                                         Canvas.SetTop(ship, y);
@@ -181,6 +185,7 @@ namespace Torpedo_Project
                 }
                 xIndex++;
             }
+            changeShipData();
         }
 
         private void placeShipDefaultPosition()
@@ -329,6 +334,18 @@ namespace Torpedo_Project
                 }
             }
             return true;
+        }
+
+        private void changeShipData()
+        {
+            if (shipXStartPosition != -1)
+            {
+                ShipStatic.shipsDatas[shipId] = $"{shipXStartPosition};{shipYStartPosition};{isHorizontal}";
+            }
+            else
+            {
+                ShipStatic.shipsDatas.Remove(shipId);
+            }
         }
 
         //private void Draw()

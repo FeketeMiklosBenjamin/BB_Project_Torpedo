@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,34 +28,35 @@ namespace Torpedo_Project
         private Ship Ship6;
         private Ship Ship7;
         private List<string> Mode;
+        private List<char> CoordinateABC;
 
         public homeWindow()
         {
             InitializeComponent();
             ShipStatic.shipsPositions = new int[12, 12];
             ShipStatic.canvas = canvas;
-            createShipsPosition();
-            DrawGrid();
             Mode = new List<string>() {"Klasszikus", "Nagycsata"};
+            CoordinateABC = new List<char>() {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
             shipCbx.ItemsSource = Mode;
             shipCbx.SelectedIndex = 0;
+            DefaultShips();
         }
 
         private void GenerateShips(int index)
         {
-            Ship1 = new Ship(5, 30, 50, 20);
-            Ship2 = new Ship(4, 30, 50, 70);
-            Ship4 = new Ship(3, 30, 50, 120);
-            Ship5 = new Ship(2, 30, 50, 220);
+            Ship1 = new Ship(5, 30, 50, 20, 1);
+            Ship2 = new Ship(4, 30, 50, 70, 2);
+            Ship4 = new Ship(3, 30, 50, 120, 3);
+            Ship5 = new Ship(2, 30, 50, 220, 5);
             if (index == 0)
             {
-                Ship3 = new Ship(3, 30, 50, 170);
+                Ship3 = new Ship(3, 30, 50, 170, 4);
             }
             else
             {
-                Ship3 = new Ship(2, 30, 50, 170);
-                Ship6 = new Ship(1, 30, 50, 270);
-                Ship7 = new Ship(1, 30, 50, 320);
+                Ship3 = new Ship(2, 30, 50, 170, 4);
+                Ship6 = new Ship(1, 30, 50, 270, 6);
+                Ship7 = new Ship(1, 30, 50, 320, 7);
             }
         }
 
@@ -71,6 +73,16 @@ namespace Torpedo_Project
                 oldal2.Owner = this.Owner;
                 oldal2.Show();
                 this.Close();
+            }
+            if (e.Key == Key.Enter)
+            {
+                if (startGameChecker())
+                {
+                    gameWindow oldal3 = new gameWindow();
+                    oldal3.Owner = this.Owner;
+                    oldal3.Show();
+                    this.Close();
+                }
             }
         }
 
@@ -93,11 +105,47 @@ namespace Torpedo_Project
                     rect.Fill = new SolidColorBrush(Colors.Blue);
                     rect.Width = 30;
                     rect.Height = 30;
-                    Canvas.SetLeft(rect, 250 + x * 30);
-                    Canvas.SetTop(rect, 10 + y * 30);
+                    Canvas.SetLeft(rect, 280 + x * 30);
+                    Canvas.SetTop(rect, 40 + y * 30);
                     Canvas.SetZIndex(rect, 0);
                     ShipStatic.canvas.Children.Add(rect);
                 }
+            }
+        }
+
+        private void DrawCoordinates(bool horizontal)
+        {
+            for (int y = 0; y < 10; y++)
+            {
+                Label label = new Label();
+                label.Width = 30;
+                label.Height = 30;
+                label.FontSize = 18;
+                label.FontWeight = FontWeights.Bold;
+                if (horizontal)
+                {
+                    label.Content = y.ToString();
+                    if (y == 0)
+                    {
+                        Canvas.SetLeft(label, 250 + 10 * 30);
+                    }
+                    else
+                    {
+                        Canvas.SetLeft(label, 250 + y * 30);
+                    }
+                    Canvas.SetTop(label, 10);
+                }
+                else
+                {
+                    label.Content = CoordinateABC[y];
+                    Canvas.SetTop(label, 40 + y * 30);
+                    Canvas.SetLeft(label, 250);
+                }
+                label.Padding = new Thickness(0, 0, 0, 0);
+                label.VerticalContentAlignment = VerticalAlignment.Center;
+                label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                Canvas.SetZIndex(label, 0);
+                ShipStatic.canvas.Children.Add(label);
             }
         }
 
@@ -113,8 +161,11 @@ namespace Torpedo_Project
         }
         private void DefaultShips()
         {
+            ShipStatic.shipsDatas.Clear();
             canvas.Children.Clear();
             DrawGrid();
+            DrawCoordinates(true);
+            DrawCoordinates(false);
             GenerateShips(shipCbx.SelectedIndex);
             createShipsPosition();
         }
@@ -135,6 +186,39 @@ namespace Torpedo_Project
             {
                 DefaultShips();
                 ShipStatic.isCheckboxChecked = false; 
+            }
+        }
+
+        private bool startGameChecker()
+        {
+            int numberOfShips = 5;
+            if (ShipStatic.isCheckboxChecked)
+            {
+                numberOfShips = 7;
+            }
+            if (ShipStatic.shipsDatas.Count() == numberOfShips)
+            {
+                StreamWriter sw = new StreamWriter("ships_positions.txt", false);
+                foreach (var item in ShipStatic.shipsDatas)
+                {
+                    sw.WriteLine($"{item.Key};{item.Value}");
+                }
+            }
+            else
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void gameStart_Click(object sender, RoutedEventArgs e)
+        {
+            if (startGameChecker())
+            {
+                gameWindow oldal3 = new gameWindow();
+                oldal3.Owner = this.Owner;
+                oldal3.Show();
+                this.Close();
             }
         }
     }

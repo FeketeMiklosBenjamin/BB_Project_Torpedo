@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Torpedo_Project"
         mc:Ignorable="d"
-        Title="gameWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Game" Height="450" Width="1200">
+    <Grid Background="LightBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0.4*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Torpedó" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3"/>
+        <Grid x:Name="gameGrid" Grid.Column="0" Grid.RowSpan="2" Grid.Row="1">
+            <Canvas x:Name="gameCanvas" Background="Beige">
+            </Canvas>
+        </Grid>
+        <Grid x:Name="shipsGrid" Grid.Column="1" Grid.Row="1">
+            <Canvas x:Name="shipsCanvas" Background="Beige">
+            </Canvas>
+        </Grid>
+
+
     </Grid>
 </Window>
