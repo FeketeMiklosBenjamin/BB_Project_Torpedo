@@ -15,4 +15,13 @@
     <Page Remove="Images\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="pictures\bobr.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="pictures\seals4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -12,8 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\feket\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\feket\\.nuget\\packages",
+      "C:\\Users\\Kaplon\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Kaplon\\.nuget\\packages",
       "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
     ],
     "configProperties": {

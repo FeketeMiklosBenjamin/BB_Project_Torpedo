@@ -5,21 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Torpedo_Project"
         mc:Ignorable="d"
-        Title="Torpedó" Height="200" Width="350">
+        Title="Torpedó" Height="400" Width="800">
     <Grid Background="LightBlue">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <UserControl Loaded="keyPress_Click"/>
-        <Label Content="Torpedó" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Grid.Row="0"/>
+        <Label Content="Torpedó" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="60" Grid.Row="0"/>
         <StackPanel Grid.Row="1">
-            <Button x:Name="startBtn" Content="START" Height="30" Width="50" Margin="10" Click="startBtn_Click"/>
-            <Label Content="A kezdéshez nyomja meg a START gombot, vagy az ENTERT-t!" FontSize="9" HorizontalAlignment="Center" FontStyle="Italic"/>
+            <Button x:Name="startBtn" Content="START" Height="50" Width="100" FontSize="20" Margin="10" Click="startBtn_Click"/>
+            <Label Content="A kezdéshez nyomja meg a START gombot, vagy az ENTERT-t!" FontSize="20" HorizontalAlignment="Center" FontStyle="Italic"/>
         </StackPanel>
-        <Image Source="./pictures/bobr.png" Width="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5"/>
-        <Image Source="./pictures/seals4.png" Width="55" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5"/>
+        <StackPanel Grid.Row="0">
+            <Image Source="/pictures/bobr.png" Stretch="Uniform" Grid.Row="0" Margin="5" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0">
+            <Image Source="/pictures/seals4.png" Stretch="Uniform" Grid.Row="0" Margin="5" Width="100" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        </StackPanel>
+
         
+
 
     </Grid>
 </Window>
