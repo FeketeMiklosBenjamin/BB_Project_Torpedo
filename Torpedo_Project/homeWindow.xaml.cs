@@ -26,28 +26,35 @@ namespace Torpedo_Project
         private Ship Ship5;
         private Ship Ship6;
         private Ship Ship7;
+        private List<string> Mode;
 
         public homeWindow()
         {
             InitializeComponent();
+            ShipStatic.shipsPositions = new int[12, 12];
+            ShipStatic.canvas = canvas;
             createShipsPosition();
             DrawGrid();
-            GenerateShips("klasszikus");
+            Mode = new List<string>() {"Klasszikus", "Nagycsata"};
+            shipCbx.ItemsSource = Mode;
+            shipCbx.SelectedIndex = 0;
         }
 
-        private void GenerateShips(string type)
+        private void GenerateShips(int index)
         {
-            Ship.canvas = canvas;
-            Ship.MyGrid = MyGrid;
-            Ship1 = new Ship(5, 30, 50, 20, "ship1");
-            Ship2 = new Ship(4, 30, 50, 70, "ship2");
-            Ship3 = new Ship(3, 30, 50, 120, "ship3");
-            Ship4 = new Ship(3, 30, 50, 170, "ship4");
-            Ship5 = new Ship(2, 30, 50, 220, "ship5");
-            if (type == "nagycsata")
+            Ship1 = new Ship(5, 30, 50, 20);
+            Ship2 = new Ship(4, 30, 50, 70);
+            Ship4 = new Ship(3, 30, 50, 120);
+            Ship5 = new Ship(2, 30, 50, 220);
+            if (index == 0)
             {
-                Ship6 = new Ship(150, 30, 50, 270, "ship6");
-                Ship7 = new Ship(150, 30, 50, 320, "ship7");
+                Ship3 = new Ship(3, 30, 50, 170);
+            }
+            else
+            {
+                Ship3 = new Ship(2, 30, 50, 170);
+                Ship6 = new Ship(1, 30, 50, 270);
+                Ship7 = new Ship(1, 30, 50, 320);
             }
         }
 
@@ -89,20 +96,45 @@ namespace Torpedo_Project
                     Canvas.SetLeft(rect, 250 + x * 30);
                     Canvas.SetTop(rect, 10 + y * 30);
                     Canvas.SetZIndex(rect, 0);
-                    canvas.Children.Add(rect);
+                    ShipStatic.canvas.Children.Add(rect);
                 }
             }
         }
 
         private void createShipsPosition()
         {
-            Helper.shipsPositions = new int[10, 10];
-            for (int x = 0; x < 10; x++)
+            for (int x = 0; x <= 11; x++)
             {
-                for (int y = 0; y < 10; y++)
+                for (int y = 0; y <= 11; y++)
                 {
-                    Helper.shipsPositions[x, y] = 0;
+                    ShipStatic.shipsPositions[x, y] = 0;
                 }
+            }
+        }
+        private void DefaultShips()
+        {
+            canvas.Children.Clear();
+            DrawGrid();
+            GenerateShips(shipCbx.SelectedIndex);
+            createShipsPosition();
+        }
+
+        private void shipCbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DefaultShips();
+        }
+
+        private void shipCkbx_Checked(object sender, RoutedEventArgs e)
+        {
+            if (shipCkbx.IsChecked == true)
+            {
+                DefaultShips();
+                ShipStatic.isCheckboxChecked = true;
+            }
+            else 
+            {
+                DefaultShips();
+                ShipStatic.isCheckboxChecked = false; 
             }
         }
     }

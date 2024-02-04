@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Torpedo_Project
 {
-    public class Helper
+    public static class ShipStatic
     {
         public static int[,] shipsPositions;
+        public static Canvas canvas;
+        public static bool isCheckboxChecked;
+
     }
 }

@@ -21,26 +21,21 @@ namespace Torpedo_Project
         public int size { get; set; }
         //public string imgSource { get; set; }
 
-        public static Canvas canvas;
-        public static Grid MyGrid;
-
         private Rectangle ship;
         private int shipSize;
         private int shipWidth;
         private int shipHeight;
-        private double? canvasLeft;
-        private double? canvasTop;
         private double shipLeft;
         private double shipDefaultLeft;
         private double shipTop;
         private double shipDefaultTop;
         private int shipXStartPosition = -1;
         private int shipYStartPosition = -1;
+        private bool isHorizontal;
 
         private bool _isRectDragInProg;
-        private bool _isHorizontal;
 
-        public Ship(int size, int height, int left, int top, string name)
+        public Ship(int size, int height, int left, int top)
         {
             shipDefaultLeft = shipLeft = left;
             shipDefaultTop = shipTop = top;
@@ -52,8 +47,7 @@ namespace Torpedo_Project
             ship.Fill = new SolidColorBrush(Colors.Violet);
             ship.Width = size * 30;
             ship.Height = height;
-            ship.Name = name;
-            _isHorizontal = true;
+            isHorizontal = true;
             ship.AddHandler(Rectangle.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(ship_MouseLeftButtonDown));
             ship.AddHandler(Rectangle.PreviewMouseRightButtonDownEvent, new MouseButtonEventHandler(ship_Rotate));
             ship.AddHandler(Rectangle.PreviewMouseLeftButtonUpEvent, new MouseButtonEventHandler(ship_MouseLeftButtonUp));
@@ -61,7 +55,7 @@ namespace Torpedo_Project
             Canvas.SetLeft(ship, left);
             Canvas.SetTop(ship, top);
             Canvas.SetZIndex(ship, 1);
-            canvas.Children.Add(ship);
+            ShipStatic.canvas.Children.Add(ship);
         }
 
         private void ship_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -73,9 +67,9 @@ namespace Torpedo_Project
 
         private void ship_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            canvasTop = Canvas.GetTop(ship);
-            canvasLeft = Canvas.GetLeft(ship);
-            if (canvasLeft < 236 || canvasLeft > 550 || canvasLeft == null || canvasTop < 0 || canvasTop > 310 || canvasTop == null)
+            shipTop = Canvas.GetTop(ship);
+            shipLeft = Canvas.GetLeft(ship);
+            if (shipLeft < 236 || shipLeft > 550 || shipTop < 0 || shipTop > 310)
             {
                 if (shipXStartPosition != -1)
                 {
@@ -95,7 +89,7 @@ namespace Torpedo_Project
         private void ship_MouseMove(object sender, MouseEventArgs e)
         {
             if (!_isRectDragInProg) return;
-            var mousePos = e.GetPosition(canvas);
+            var mousePos = e.GetPosition(ShipStatic.canvas);
 
             double left = mousePos.X - (ship.ActualWidth / 2);
             double top = mousePos.Y - (ship.ActualHeight / 2);
@@ -123,13 +117,13 @@ namespace Torpedo_Project
             shipHeight = width;
             shipWidth = height;
 
-            _isHorizontal = !_isHorizontal;
+            isHorizontal = !isHorizontal;
         }
 
         private void placeShip(bool isRotated)
         {
-            int xIndex = 0;
-            int yIndex = 0;
+            int xIndex = 1;
+            int yIndex = 1;
             for (int x = 250; x < 550; x += 30)
             {
                 if ((x + shipWidth) <= 550)
@@ -197,7 +191,7 @@ namespace Torpedo_Project
             shipYStartPosition = -1;
             shipLeft = shipDefaultLeft;
             shipTop = shipDefaultTop;
-            if (!_isHorizontal)
+            if (!isHorizontal)
             {
                 rotateShipFunction();
             }
@@ -210,67 +204,157 @@ namespace Torpedo_Project
             {
                 number = 1;
             }
-            if (_isHorizontal)
+            if (ShipStatic.isCheckboxChecked)
             {
-                for (int i = 0; i < shipSize; i++)
+                if (modifyShipPositionChecked(remove, isRotated))
                 {
-                    if (remove && isRotated)
-                    {
-                        Helper.shipsPositions[shipXStartPosition, shipYStartPosition + i] = number;
-                    }
-                    else if (Helper.shipsPositions[shipXStartPosition + i, shipYStartPosition] == 0 || remove)
-                    {
-                        if (isRotated)
-                        {
-                            Helper.shipsPositions[shipXStartPosition, shipYStartPosition + i] = number;
-                        }
-                        else
-                        {
-                            Helper.shipsPositions[shipXStartPosition + i, shipYStartPosition] = number;
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < i; j++)
-                        {
-                            Helper.shipsPositions[shipXStartPosition + j, shipYStartPosition] = 0;
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-                return true;
+                return false;
             }
             else
             {
-                for (int i = 0; i < shipSize; i++)
+                if (modifyShipPositionNotChecked(remove, isRotated, number))
                 {
-                    if (remove && isRotated)
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        private bool modifyShipPositionChecked(bool remove, bool isRotated)
+        {
+            bool hasPlace = true;
+            if (!remove)
+            {       
+                for (int i = -1; i <= shipSize; i++)
+                {
+                    for (int j = -1; j <= 1; j++)
                     {
-                        Helper.shipsPositions[shipXStartPosition + i, shipYStartPosition] = number;
-                    }
-                    else if (Helper.shipsPositions[shipXStartPosition, shipYStartPosition + i] == 0 || remove)
-                    {
-                        if (isRotated)
+                        if (isHorizontal)
                         {
-                            Helper.shipsPositions[shipXStartPosition + i, shipYStartPosition] = number;
+                            if (ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition + j] == 1)
+                            {
+                                hasPlace = false;
+                                return hasPlace;
+                            }
                         }
                         else
                         {
-                            Helper.shipsPositions[shipXStartPosition, shipYStartPosition + i] = number;
+                            if (ShipStatic.shipsPositions[shipXStartPosition + j, shipYStartPosition + i] == 1)
+                            {
+                                hasPlace = false;
+                                return hasPlace;
+                            }
+                        }
+                    }
+                }
+            }
+            if (hasPlace == true)
+            {
+                for (int i = 0; i < shipSize; i++)
+                {
+                    if ((isHorizontal && remove && isRotated) || (!isHorizontal && remove && !isRotated))
+                    {
+                        ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] = 0;
+                    }
+                    else if ((!isHorizontal && remove && isRotated) || (isHorizontal && remove && !isRotated))
+                    {
+                        ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = 0;
+                    }
+                    else
+                    {
+                        if (isHorizontal)
+                        {
+                            ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = 1;
+                        }
+                        else
+                        {
+                            ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] = 1;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        private bool modifyShipPositionNotChecked(bool remove, bool isRotated, int number)
+        {
+            for (int i = 0; i < shipSize; i++)
+            {
+                if (isHorizontal)
+                {
+                    if (remove && isRotated)
+                    {
+                        ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] = number;
+                    }
+                    else if (ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] == 0 || remove)
+                    {
+                        ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = number;
+                    }
+                    else
+                    {
+                        for (int j = 0; j < i; j++)
+                        {
+                            ShipStatic.shipsPositions[shipXStartPosition + j, shipYStartPosition] = 0;
+                        }
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (remove && isRotated)
+                    {
+                        ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = number;
+                    }
+                    else if (ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] == 0 || remove)
+                    {
+                        if (isRotated)
+                        {
+                            ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = number;
+                        }
+                        else
+                        {
+                            ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] = number;
                         }
                     }
                     else
                     {
                         for (int j = 0; j < i; j++)
                         {
-                            Helper.shipsPositions[shipXStartPosition, shipYStartPosition + j] = 0;
+                            ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + j] = 0;
                         }
                         return false;
                     }
-
                 }
-                return true;
             }
+            return true;
         }
+
+        //private void Draw()
+        //{
+        //    for (int x = 0; x <= 11; x++)
+        //    {
+        //        for (int y = 0; y <= 11; y++)
+        //        {
+        //            Rectangle rect = new Rectangle();
+        //            rect.Stroke = new SolidColorBrush(Colors.Black);
+        //            if (ShipFunctions.shipsPositions[x, y] == 1)
+        //            {
+        //                rect.Fill = new SolidColorBrush(Colors.Green);
+        //            }
+        //            else
+        //            {
+        //                rect.Fill = new SolidColorBrush(Colors.Yellow);
+        //            }
+        //            rect.Width = 30;
+        //            rect.Height = 30;
+        //            Canvas.SetLeft(rect, 550 + x * 30);
+        //            Canvas.SetTop(rect, 10 + y * 30);
+        //            Canvas.SetZIndex(rect, 0);
+        //            ShipFunctions.canvas.Children.Add(rect);
+        //        }
+        //    }
+        //}
     }
 }
