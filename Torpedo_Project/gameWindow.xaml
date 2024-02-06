@@ -5,25 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Torpedo_Project"
         mc:Ignorable="d"
-        Title="Game" Height="450" Width="1200">
+        Title="Game" Height="500" Width="1100">
     <Grid Background="LightBlue">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*"/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="0.9*"/>
+            <RowDefinition Height="1.1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="0.4*"/>
+            <ColumnDefinition Width="0.57*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Torpedó" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="3"/>
         <Grid x:Name="gameGrid" Grid.Column="0" Grid.RowSpan="2" Grid.Row="1">
             <Canvas x:Name="gameCanvas" Background="Beige">
             </Canvas>
         </Grid>
-        <Grid x:Name="shipsGrid" Grid.Column="1" Grid.Row="1">
-            <Canvas x:Name="shipsCanvas" Background="Beige">
-            </Canvas>
+        <Grid x:Name="shipsGrid" Grid.Column="1" Grid.Row="1" Margin="0,50,0,0">
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="FontSize" Value="16"/>
+                </Style>
+                <Style TargetType="Rectangle">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="Height" Value="30"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="2.5*"/>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="1.6*"/>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="0.8*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" x:Name="ship5_Lbl" Content="0*"/>
+            <Rectangle Grid.Row="0" Grid.Column="1" Width="150" Fill="Violet" Stroke="Black"/>
+            <Label Grid.Row="1" Grid.Column="0" x:Name="ship4_Lbl" Content="0*"/>
+            <Rectangle Grid.Row="1" Grid.Column="1" Width="120" Fill="Violet" Stroke="Black"/>
+            <Label Grid.Row="0" Grid.Column="2" x:Name="ship3_Lbl" Content="0*"/>
+            <Rectangle Grid.Row="0" Grid.Column="3" Width="90" Fill="Violet" Stroke="Black"/>
+            <Label Grid.Row="1" Grid.Column="2" x:Name="ship2_Lbl" Content="0*"/>
+            <Rectangle Grid.Row="1" Grid.Column="3" Width="60" Fill="Violet" Stroke="Black"/>
+            <Label Grid.Row="0" Grid.Column="4" x:Name="ship1_Lbl" Content="0*"/>
+            <Rectangle Grid.Row="0" Grid.Column="5" Width="30" Fill="Violet" Stroke="Black"/>
         </Grid>
 
 

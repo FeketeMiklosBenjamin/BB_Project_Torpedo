@@ -21,6 +21,7 @@ namespace Torpedo_Project
         public int size { get; set; }
         //public string imgSource { get; set; }
 
+        public static Canvas canvas;
         private Rectangle ship;
         private int shipId;
         private int shipSize;
@@ -57,7 +58,7 @@ namespace Torpedo_Project
             Canvas.SetLeft(ship, left);
             Canvas.SetTop(ship, top);
             Canvas.SetZIndex(ship, 1);
-            ShipStatic.canvas.Children.Add(ship);
+            canvas.Children.Add(ship);
         }
 
         private void ship_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -92,7 +93,7 @@ namespace Torpedo_Project
         private void ship_MouseMove(object sender, MouseEventArgs e)
         {
             if (!_isRectDragInProg) return;
-            var mousePos = e.GetPosition(ShipStatic.canvas);
+            var mousePos = e.GetPosition(canvas);
 
             double left = mousePos.X - (ship.ActualWidth / 2);
             double top = mousePos.Y - (ship.ActualHeight / 2);
@@ -340,7 +341,7 @@ namespace Torpedo_Project
         {
             if (shipXStartPosition != -1)
             {
-                ShipStatic.shipsDatas[shipId] = $"{shipXStartPosition};{shipYStartPosition};{isHorizontal}";
+                ShipStatic.shipsDatas[shipId] = $"{shipSize};{shipXStartPosition};{shipYStartPosition};{isHorizontal}";
             }
             else
             {

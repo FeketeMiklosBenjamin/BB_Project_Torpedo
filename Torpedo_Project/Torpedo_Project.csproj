@@ -16,12 +16,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="pictures\bobr.png">
+    <None Remove="pictures\bobr.png" />
+    <None Remove="pictures\seals4.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="pictures\bobr.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="pictures\seals4.png">
+    </Content>
+    <Content Include="pictures\seals4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
 
 </Project>
