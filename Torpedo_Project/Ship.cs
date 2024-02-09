@@ -205,174 +205,19 @@ namespace Torpedo_Project
 
         private bool modifyShipPosition(bool remove, bool isRotated)
         {
-            int number = 0;
-            if (!remove)
-            {
-                number = 1;
-            }
-            if (ShipStatic.isCheckboxChecked)
-            {
-                if (modifyShipPositionChecked(remove, isRotated))
-                {
-                    return true;
-                }
-                return false;
-            }
-            else
-            {
-                if (modifyShipPositionNotChecked(remove, isRotated, number))
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
-
-        private bool modifyShipPositionChecked(bool remove, bool isRotated)
-        {
-            bool hasPlace = true;
-            if (!remove)
-            {       
-                for (int i = -1; i <= shipSize; i++)
-                {
-                    for (int j = -1; j <= 1; j++)
-                    {
-                        if (isHorizontal)
-                        {
-                            if (ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition + j] == 1)
-                            {
-                                hasPlace = false;
-                                return hasPlace;
-                            }
-                        }
-                        else
-                        {
-                            if (ShipStatic.shipsPositions[shipXStartPosition + j, shipYStartPosition + i] == 1)
-                            {
-                                hasPlace = false;
-                                return hasPlace;
-                            }
-                        }
-                    }
-                }
-            }
-            if (hasPlace == true)
-            {
-                for (int i = 0; i < shipSize; i++)
-                {
-                    if ((isHorizontal && remove && isRotated) || (!isHorizontal && remove && !isRotated))
-                    {
-                        ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] = 0;
-                    }
-                    else if ((!isHorizontal && remove && isRotated) || (isHorizontal && remove && !isRotated))
-                    {
-                        ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = 0;
-                    }
-                    else
-                    {
-                        if (isHorizontal)
-                        {
-                            ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = 1;
-                        }
-                        else
-                        {
-                            ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] = 1;
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-
-        private bool modifyShipPositionNotChecked(bool remove, bool isRotated, int number)
-        {
-            for (int i = 0; i < shipSize; i++)
-            {
-                if (isHorizontal)
-                {
-                    if (remove && isRotated)
-                    {
-                        ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] = number;
-                    }
-                    else if (ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] == 0 || remove)
-                    {
-                        ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = number;
-                    }
-                    else
-                    {
-                        for (int j = 0; j < i; j++)
-                        {
-                            ShipStatic.shipsPositions[shipXStartPosition + j, shipYStartPosition] = 0;
-                        }
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (remove && isRotated)
-                    {
-                        ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = number;
-                    }
-                    else if (ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] == 0 || remove)
-                    {
-                        if (isRotated)
-                        {
-                            ShipStatic.shipsPositions[shipXStartPosition + i, shipYStartPosition] = number;
-                        }
-                        else
-                        {
-                            ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + i] = number;
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < i; j++)
-                        {
-                            ShipStatic.shipsPositions[shipXStartPosition, shipYStartPosition + j] = 0;
-                        }
-                        return false;
-                    }
-                }
-            }
-            return true;
+            return ShipStatic.modifyShipPositionChecked(shipSize, shipXStartPosition, shipYStartPosition, isHorizontal, remove, isRotated);
         }
 
         private void changeShipData()
         {
             if (shipXStartPosition != -1)
             {
-                ShipStatic.shipsDatas[shipId] = $"{shipSize};{shipXStartPosition};{shipYStartPosition};{isHorizontal}";
+                ShipStatic.PlayerShipsDatas[shipId] = $"{shipSize};{shipXStartPosition};{shipYStartPosition};{isHorizontal}";
             }
             else
             {
-                ShipStatic.shipsDatas.Remove(shipId);
+                ShipStatic.PlayerShipsDatas.Remove(shipId);
             }
         }
-
-        //private void Draw()
-        //{
-        //    for (int x = 0; x <= 11; x++)
-        //    {
-        //        for (int y = 0; y <= 11; y++)
-        //        {
-        //            Rectangle rect = new Rectangle();
-        //            rect.Stroke = new SolidColorBrush(Colors.Black);
-        //            if (ShipFunctions.shipsPositions[x, y] == 1)
-        //            {
-        //                rect.Fill = new SolidColorBrush(Colors.Green);
-        //            }
-        //            else
-        //            {
-        //                rect.Fill = new SolidColorBrush(Colors.Yellow);
-        //            }
-        //            rect.Width = 30;
-        //            rect.Height = 30;
-        //            Canvas.SetLeft(rect, 550 + x * 30);
-        //            Canvas.SetTop(rect, 10 + y * 30);
-        //            Canvas.SetZIndex(rect, 0);
-        //            ShipFunctions.canvas.Children.Add(rect);
-        //        }
-        //    }
-        //}
     }
 }

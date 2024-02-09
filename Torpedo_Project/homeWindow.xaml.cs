@@ -33,7 +33,7 @@ namespace Torpedo_Project
         public homeWindow()
         {
             InitializeComponent();
-            ShipStatic.shipsPositions = new int[12, 12];
+            ShipStatic.checkShipsPositions = new int[12, 12];
             Ship.canvas = canvas;
             Mode = new List<string>() {"Klasszikus", "Nagycsata"};
             shipCbx.ItemsSource = Mode;
@@ -94,26 +94,15 @@ namespace Torpedo_Project
             oldal2.Show();
             this.Close();
         }
-
-        private void createShipsPosition()
-        {
-            for (int x = 0; x <= 11; x++)
-            {
-                for (int y = 0; y <= 11; y++)
-                {
-                    ShipStatic.shipsPositions[x, y] = 0;
-                }
-            }
-        }
         private void DefaultShips()
         {
-            ShipStatic.shipsDatas.Clear();
+            ShipStatic.PlayerShipsDatas.Clear();
             canvas.Children.Clear();
             ShipStatic.DrawGrid(canvas, 280, 40);
             ShipStatic.DrawCoordinates(canvas, true, 250, 10);
             ShipStatic.DrawCoordinates(canvas, false, 250, 40);
             GenerateShips(shipCbx.SelectedIndex);
-            createShipsPosition();
+            ShipStatic.SetShipsPositions();
         }
 
         private void shipCbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -138,12 +127,18 @@ namespace Torpedo_Project
         private bool startGameChecker()
         {
             int numberOfShips = 5;
-            if (ShipStatic.isCheckboxChecked)
+            if (ShipStatic.shipsCount == 7)
             {
                 numberOfShips = 7;
             }
-            if (ShipStatic.shipsDatas.Count() == numberOfShips)
+            if (ShipStatic.PlayerShipsDatas.Count() == numberOfShips)
             {
+                foreach (var item in ShipStatic.PlayerShipsDatas)
+                {
+                    ShipStatic.shipTypes.Add(int.Parse(item.Value.Split(";")[0]));
+                }
+                ShipStatic.shipTypes.Sort();
+                ShipStatic.shipTypes.Reverse();
                 return true;
             }
             else
