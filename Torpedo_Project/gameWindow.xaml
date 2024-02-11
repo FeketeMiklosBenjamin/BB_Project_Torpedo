@@ -56,6 +56,9 @@
             <Label Grid.Row="0" Grid.Column="4" x:Name="ship1_Lbl" Content="0*"/>
             <Rectangle Grid.Row="0" Grid.Column="5" Width="30" Fill="Violet" Stroke="Black"/>
         </Grid>
+        <Grid x:Name="resultGrid" Grid.Row="2" Grid.Column="1">
+            
+        </Grid>
 
 
     </Grid>

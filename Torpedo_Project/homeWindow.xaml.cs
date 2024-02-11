@@ -43,21 +43,21 @@ namespace Torpedo_Project
 
         private void GenerateShips(int index)
         {
-            Ship1 = new Ship(5, 30, 50, 20, 1);
-            Ship2 = new Ship(4, 30, 50, 70, 2);
-            Ship4 = new Ship(3, 30, 50, 120, 3);
-            Ship5 = new Ship(2, 30, 50, 220, 5);
+            Ship1 = new Ship(5, 30, 50, 20, 1, 51);
+            Ship2 = new Ship(4, 30, 50, 70, 2, 41);
+            Ship4 = new Ship(3, 30, 50, 120, 3, 31);
+            Ship5 = new Ship(2, 30, 50, 220, 5, 21);
             if (index == 0)
             {
                 ShipStatic.shipsCount = 5;
-                Ship3 = new Ship(3, 30, 50, 170, 4);
+                Ship3 = new Ship(3, 30, 50, 170, 4, 32);
             }
             else
             {
                 ShipStatic.shipsCount = 7;
-                Ship3 = new Ship(2, 30, 50, 170, 4);
-                Ship6 = new Ship(1, 30, 50, 270, 6);
-                Ship7 = new Ship(1, 30, 50, 320, 7);
+                Ship3 = new Ship(2, 30, 50, 170, 4, 22);
+                Ship6 = new Ship(1, 30, 50, 270, 6, 11);
+                Ship7 = new Ship(1, 30, 50, 320, 7, 12);
             }
         }
 
@@ -110,20 +110,6 @@ namespace Torpedo_Project
             DefaultShips();
         }
 
-        private void shipCkbx_Checked(object sender, RoutedEventArgs e)
-        {
-            if (shipCkbx.IsChecked == true)
-            {
-                DefaultShips();
-                ShipStatic.isCheckboxChecked = true;
-            }
-            else 
-            {
-                DefaultShips();
-                ShipStatic.isCheckboxChecked = false; 
-            }
-        }
-
         private bool startGameChecker()
         {
             int numberOfShips = 5;
@@ -135,10 +121,14 @@ namespace Torpedo_Project
             {
                 foreach (var item in ShipStatic.PlayerShipsDatas)
                 {
-                    ShipStatic.shipTypes.Add(int.Parse(item.Value.Split(";")[0]));
+                    ShipStatic.shipsIDs.Add(int.Parse(item.Value.Split(";")[0]));
+                    AI.playerShipsTypes.Add(int.Parse(item.Value.Split(";")[1]));
+                    ShipStatic.AIShipsTypes.Add(int.Parse(item.Value.Split(";")[1]));
                 }
-                ShipStatic.shipTypes.Sort();
-                ShipStatic.shipTypes.Reverse();
+                ShipStatic.shipsIDs.Sort();
+                ShipStatic.shipsIDs.Reverse();
+                ShipStatic.AIShipsTypes.Sort();
+                AI.playerShipsTypes.Sort();
                 return true;
             }
             else

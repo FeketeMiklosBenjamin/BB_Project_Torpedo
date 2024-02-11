@@ -23,6 +23,7 @@ namespace Torpedo_Project
 
         public static Canvas canvas;
         private Rectangle ship;
+        private int Id;
         private int shipId;
         private int shipSize;
         private int shipWidth;
@@ -37,9 +38,10 @@ namespace Torpedo_Project
 
         private bool _isRectDragInProg;
 
-        public Ship(int size, int height, int left, int top, int id)
+        public Ship(int size, int height, int left, int top, int id, int shipID)
         {
-            shipId = id;
+            Id = id;
+            shipId = shipID;
             shipDefaultLeft = shipLeft = left;
             shipDefaultTop = shipTop = top;
             shipWidth = size * 30;
@@ -205,18 +207,18 @@ namespace Torpedo_Project
 
         private bool modifyShipPosition(bool remove, bool isRotated)
         {
-            return ShipStatic.modifyShipPositionChecked(shipSize, shipXStartPosition, shipYStartPosition, isHorizontal, remove, isRotated);
+            return ShipStatic.modifyShipPosition(shipSize, shipXStartPosition, shipYStartPosition, isHorizontal, remove, isRotated);
         }
 
         private void changeShipData()
         {
             if (shipXStartPosition != -1)
             {
-                ShipStatic.PlayerShipsDatas[shipId] = $"{shipSize};{shipXStartPosition};{shipYStartPosition};{isHorizontal}";
+                ShipStatic.PlayerShipsDatas[Id] = $"{shipId};{shipSize};{shipXStartPosition};{shipYStartPosition};{isHorizontal}";
             }
             else
             {
-                ShipStatic.PlayerShipsDatas.Remove(shipId);
+                ShipStatic.PlayerShipsDatas.Remove(Id);
             }
         }
     }

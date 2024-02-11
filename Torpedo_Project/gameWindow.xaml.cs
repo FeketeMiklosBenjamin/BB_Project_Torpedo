@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace Torpedo_Project
     /// </summary>
     public partial class gameWindow : Window
     {
+        private AI aIClass;
+        private Game gameClass;
 
         public gameWindow()
         {
@@ -34,28 +37,36 @@ namespace Torpedo_Project
             ShipStatic.DrawCoordinates(gameCanvas, false, 650, 40);
             startConfig();
             AI.gameCanvas = gameCanvas;
-            AI aI = new AI();
-            Game game = new Game();
+            AI.playerShipsTypes = ShipStatic.AIShipsTypes;
+            Game.gameCanvas = gameCanvas;
+            Game.shipsGrid = shipsGrid;
+            aIClass = new AI();
+            gameClass = new Game();
+            gameCanvas.AddHandler(Canvas.PreviewMouseRightButtonDownEvent, new MouseButtonEventHandler(canvas_MouseRightButtonDown));
+            if (!Game.playerTurn)
+            {
+                AITip();
+            }
         }
 
         private void startConfig()
         {
-            ShowRemaningShips();
+            ShowRemainingShips();
             int shipSize;
             int shipStartX;
             int shipStartY;
             bool isHorizontal;
             foreach (var item in ShipStatic.PlayerShipsDatas)
             {
-                shipSize = int.Parse(item.Value.Split(";")[0]);
-                shipStartX = int.Parse(item.Value.Split(";")[1]);
-                shipStartY = int.Parse(item.Value.Split(";")[2]);
-                isHorizontal = bool.Parse(item.Value.Split(";")[3]);
+                shipSize = int.Parse(item.Value.Split(";")[1]);
+                shipStartX = int.Parse(item.Value.Split(";")[2]);
+                shipStartY = int.Parse(item.Value.Split(";")[3]);
+                isHorizontal = bool.Parse(item.Value.Split(";")[4]);
                 ShipStatic.DrawShips(gameCanvas, shipSize, 40,40, shipStartX, shipStartY, isHorizontal);
             }
         }
 
-        private void ShowRemaningShips()
+        private void ShowRemainingShips()
         {
             ship5_Lbl.Content = "1*";
             ship4_Lbl.Content = "1*";
@@ -70,6 +81,134 @@ namespace Torpedo_Project
                 ship2_Lbl.Content = "2*";
                 ship1_Lbl.Content = "2*";
             }
+        }
+
+        private void ChangeRemainingShips(int shipType)
+        {
+            switch (shipType)
+            {
+                case 1:
+                    ship1_Lbl.Content = $"{ShipStatic.AIShipsTypes.Where(x => x == 1).Count()}*";
+                    break;
+                case 2:
+                    ship2_Lbl.Content = $"{ShipStatic.AIShipsTypes.Where(x => x == 2).Count()}*";
+                    break;
+                case 3:
+                    ship3_Lbl.Content = $"{ShipStatic.AIShipsTypes.Where(x => x == 3).Count()}*";
+                    break;
+                case 4:
+                    ship4_Lbl.Content = $"{ShipStatic.AIShipsTypes.Where(x => x == 4).Count()}*";
+                    break;
+                case 5:
+                    ship5_Lbl.Content = $"{ShipStatic.AIShipsTypes.Where(x => x == 5).Count()}*";
+                    break;
+            }
+        }
+
+        private void canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!Game.playerTurn || Game.playerWins != null)
+            {
+                return;
+            }
+            var mousePos = e.GetPosition(gameCanvas);
+
+            double left = mousePos.X;
+            double top = mousePos.Y;
+
+            if (gameClass.placeTip(left, top))
+            {
+                if (Game.shipDrowned != 0)
+                {
+                    int shipType = int.Parse(Game.shipDrowned.ToString()[0].ToString());
+                    ShipStatic.AIShipsTypes.Remove(shipType);
+                    ChangeRemainingShips(shipType);
+                    if (Game.playerWins == true)
+                    {
+                        DrawWinLabel(true);
+                        return;
+                    }
+                }
+
+                if (Game.shipDrowned != 0)
+                {
+                    DrawTipResult(Game.playerHit, true);
+                }
+                else
+                {   
+                    DrawTipResult(Game.playerHit, false);
+                }
+
+                if (!Game.playerTurn)
+                {
+                    AITip();
+                    if (Game.playerWins == false)
+                    {
+                        DrawWinLabel(false);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void AITip()
+        {
+            do
+            {
+                aIClass.placeAITip();
+                if (Game.shipDrowned != 0)
+                {
+                    int shipType = int.Parse(Game.shipDrowned.ToString()[0].ToString());
+                    AI.playerShipsTypes.Remove(shipType);
+                }
+            } while (!Game.playerTurn);
+        }
+
+        private void DrawTipResult(bool isHit, bool isDrowned)
+        {
+            resultGrid.Children.Clear();
+            Label label = new Label();
+            label.Width = 160;
+            label.Height = 40;
+            label.FontSize = 20;
+            label.HorizontalContentAlignment = HorizontalAlignment.Center;
+            if (isHit && isDrowned)
+            {
+                label.Content = "Talált és süllyedt!";
+                label.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            else if (isHit)
+            {
+                label.Content = "Talált!";
+                label.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            else
+            {
+                label.Content = "Nem talált!";
+                label.Foreground = new SolidColorBrush(Colors.Red);
+            }
+            resultGrid.Children.Add(label);
+        }
+
+        private void DrawWinLabel(bool playerWins)
+        {
+            resultGrid.Children.Clear();
+            Label label = new Label();
+            label.Width = 150;
+            label.Height = 40;
+            label.FontSize = 20;
+            label.HorizontalContentAlignment = HorizontalAlignment.Center;
+            if (playerWins)
+            {
+                label.Content = "Győztél!";
+                label.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            else
+            {
+                label.Content = "Vesztettél!";
+                label.Foreground = new SolidColorBrush(Colors.Red);
+            }
+            resultGrid.Children.Add(label);
         }
     }
 }

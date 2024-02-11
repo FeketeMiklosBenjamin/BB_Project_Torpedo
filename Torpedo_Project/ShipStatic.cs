@@ -15,7 +15,8 @@ namespace Torpedo_Project
         public static int[,] checkShipsPositions;
         public static bool isCheckboxChecked;
         public static int shipsCount;
-        public static List<int> shipTypes = new List<int>();
+        public static List<int> AIShipsTypes = new List<int>();
+        public static List<int> shipsIDs = new List<int>();
         public static Dictionary<int, string> PlayerShipsDatas = new Dictionary<int, string>();
         public static Dictionary<int, string> AIShipsDatas = new Dictionary<int, string>();
         public static List<char> CoordinateABC = new List<char>() { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
@@ -109,63 +110,32 @@ namespace Torpedo_Project
             }
         }
 
-        public static bool modifyShipPositionChecked(int shipSize, int xPos, int yPos, bool isHorizontal, bool remove, bool isRotated)
+        public static bool modifyShipPosition(int shipSize, int xPos, int yPos, bool isHorizontal, bool remove, bool isRotated)
         {
             if (!remove)
             {
-                if (isCheckboxChecked)
+                for (int i = -1; i <= shipSize; i++)
                 {
-                    for (int i = -1; i <= shipSize; i++)
-                    {
-                        for (int j = -1; j <= 1; j++)
-                        {
-                            if (isHorizontal)
-                            {
-                                if (xPos + i > 11 || yPos + j > 11)
-                                {
-                                    return false;
-                                }
-                                if (checkShipsPositions[xPos + i, yPos + j] == 1)
-                                {
-                                    return false;
-                                }
-                            }
-                            else
-                            {
-                                if (xPos + j > 11 || yPos + i > 11)
-                                {
-                                    return false;
-                                }
-                                if (checkShipsPositions[xPos + j, yPos + i] == 1)
-                                {
-                                    return false;
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < shipSize; i++)
+                    for (int j = -1; j <= 1; j++)
                     {
                         if (isHorizontal)
                         {
-                            if (xPos + i > 10)
+                            if (xPos + i > 11 || yPos + j > 11)
                             {
                                 return false;
                             }
-                            if (checkShipsPositions[xPos + i, yPos] == 1)
+                            if (checkShipsPositions[xPos + i, yPos + j] == 1)
                             {
                                 return false;
                             }
                         }
                         else
                         {
-                            if (yPos + i > 10)
+                            if (xPos + j > 11 || yPos + i > 11)
                             {
                                 return false;
                             }
-                            if (checkShipsPositions[xPos, yPos + i] == 1)
+                            if (checkShipsPositions[xPos + j, yPos + i] == 1)
                             {
                                 return false;
                             }
