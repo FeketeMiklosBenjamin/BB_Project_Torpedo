@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Torpedo_Project
 {
@@ -40,21 +40,17 @@ namespace Torpedo_Project
             ShipStatic.DrawCoordinates(gameCanvas, false, 650, 40);
             startConfig();
             AI.gameCanvas = gameCanvas;
-            AI.playerShipsTypes = ShipStatic.AIShipsTypes;
             Game.gameCanvas = gameCanvas;
             Game.shipsGrid = shipsGrid;
             aIClass = new AI();
             gameClass = new Game();
-            gameCanvas.AddHandler(Canvas.PreviewMouseRightButtonDownEvent, new MouseButtonEventHandler(canvas_MouseRightButtonDown));
+            gameCanvas.AddHandler(Canvas.PreviewMouseLeftButtonDownEvent, new MouseButtonEventHandler(canvas_MouseLeftButtonDown));
             if (!Game.playerTurn)
             {
                 AITip();
             }
         }
-        private void randomPic()
-        {
 
-        }
         private void startConfig()
         {
             ShowRemainingShips();
@@ -68,7 +64,7 @@ namespace Torpedo_Project
                 shipStartX = int.Parse(item.Value.Split(";")[2]);
                 shipStartY = int.Parse(item.Value.Split(";")[3]);
                 isHorizontal = bool.Parse(item.Value.Split(";")[4]);
-                ShipStatic.DrawShips(gameCanvas, shipSize, 40,40, shipStartX, shipStartY, isHorizontal);
+                ShipStatic.DrawShips(gameCanvas, shipSize, 40, 40, shipStartX, shipStartY, isHorizontal);
             }
         }
 
@@ -111,9 +107,9 @@ namespace Torpedo_Project
             }
         }
 
-        private void canvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!Game.playerTurn || Game.playerWins != null)
+            if (!Game.playerTurn || Game.win == true)
             {
                 return;
             }
@@ -129,9 +125,10 @@ namespace Torpedo_Project
                     int shipType = int.Parse(Game.shipDrowned.ToString()[0].ToString());
                     ShipStatic.AIShipsTypes.Remove(shipType);
                     ChangeRemainingShips(shipType);
-                    if (Game.playerWins == true)
+                    if (ShipStatic.AIShipsTypes.Count() == 0)
                     {
                         DrawWinLabel(true);
+                        Game.win = true;
                         return;
                     }
                 }
@@ -141,16 +138,17 @@ namespace Torpedo_Project
                     DrawTipResult(Game.playerHit, true);
                 }
                 else
-                {   
+                {
                     DrawTipResult(Game.playerHit, false);
                 }
 
                 if (!Game.playerTurn)
                 {
                     AITip();
-                    if (Game.playerWins == false)
+                    if (AI.playerShipsTypes.Count() == 0)
                     {
                         DrawWinLabel(false);
+                        Game.win = true;
                         return;
                     }
                 }
@@ -166,6 +164,10 @@ namespace Torpedo_Project
                 {
                     int shipType = int.Parse(Game.shipDrowned.ToString()[0].ToString());
                     AI.playerShipsTypes.Remove(shipType);
+                }
+                if (AI.playerShipsTypes.Count() == 0)
+                {
+                    return;
                 }
             } while (!Game.playerTurn);
         }
@@ -215,7 +217,7 @@ namespace Torpedo_Project
             label.HorizontalContentAlignment = HorizontalAlignment.Center;
             if (playerWins)
             {
-                
+
                 label.Content = "Győztél!";
                 label.Foreground = new SolidColorBrush(Colors.Green);
             }

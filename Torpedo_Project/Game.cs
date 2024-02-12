@@ -18,7 +18,7 @@ namespace Torpedo_Project
         public static Grid shipsGrid;
         public static int shipDrowned;
         public static bool playerHit;
-        public static bool? playerWins = null;
+        public static bool win = false;
 
         public Game()
         {
@@ -107,10 +107,6 @@ namespace Torpedo_Project
                             {
                                 DrawTip(modifyNumber, 350, 40, xIndex, yIndex);
                             }
-                            if (ShipStatic.AIShipsTypes.Count() == 0)
-                            {
-                                playerWins = true;
-                            }
                             return true;
                         }
                         yIndex++;
@@ -188,7 +184,7 @@ namespace Torpedo_Project
                     else
                     {
                         AI.targetShipHitCount++;
-                        int[] coordinates = new int[2] {xPos, yPos};
+                        int[] coordinates = new int[2] { xPos, yPos };
                         AI.targetedShipsPositions.Clear();
                         AI.targetedShipsPositions.Add(coordinates[0]);
                         AI.targetedShipsPositions.Add(coordinates[1]);
@@ -216,7 +212,12 @@ namespace Torpedo_Project
                 tip.Fill = new SolidColorBrush(Colors.Red);
             }
             gameCanvas.Children.Add(tip);
-            
+            if (AI.targetedShip == false)
+            {
+                AI.targetShipHitCount = 0;
+            }
+
+
         }
 
         private bool theShipIsDrowned(bool isAIMatrixModify, int[,] shipPosition, int shipType)
@@ -235,7 +236,6 @@ namespace Torpedo_Project
             {
                 AI.targetedShipsPositions.Clear();
                 AI.targetHorizontal = null;
-                AI.targetShipHitCount = 0;
             }
             return true;
         }

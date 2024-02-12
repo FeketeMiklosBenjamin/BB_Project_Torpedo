@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <None Remove="pictures\bobr.png" />
+    <None Remove="pictures\pic_1.jpg" />
     <None Remove="pictures\seals4.png" />
   </ItemGroup>
 
@@ -24,15 +25,12 @@
     <Content Include="pictures\bobr.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="pictures\pic_1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="pictures\seals4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="pictures\pic_1.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

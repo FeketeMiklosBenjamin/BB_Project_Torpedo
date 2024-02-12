@@ -64,17 +64,10 @@ namespace Torpedo_Project
             }
             else
             {
-                if (playerShipsTypes.Count() != 0)
-                {
-                    int minNumber = playerShipsTypes[0];
-                    int maxNumber = playerShipsTypes[playerShipsTypes.Count -1];
-                    int randomType = randomTipGenerator(minNumber, maxNumber);
-                    FilterHelperMatrix(randomType);
-                }
-                else
-                {
-                    playerWins = false;
-                }
+                int minNumber = playerShipsTypes[0];
+                int maxNumber = playerShipsTypes[playerShipsTypes.Count - 1];
+                int randomType = randomTipGenerator(minNumber, maxNumber);
+                FilterHelperMatrix(randomType);
             }
         }
 
@@ -202,7 +195,7 @@ namespace Torpedo_Project
         private bool TipChecker(int xCoordinate, int yCoordinate, int shipSize)
         {
             int emptySlot = 1;
-            for (int i = 1; i <= shipSize; i++)
+            for (int i = 0; i < shipSize; i++)
             {
                 if (AITipsHelper[xCoordinate - i, yCoordinate] == 0)
                 {
@@ -217,7 +210,7 @@ namespace Torpedo_Project
                     break;
                 }
             }
-            for (int i = 1; i <= shipSize; i++)
+            for (int i = 0; i < shipSize; i++)
             {
                 if (AITipsHelper[xCoordinate + i, yCoordinate] == 0)
                 {
@@ -234,7 +227,7 @@ namespace Torpedo_Project
             }
 
             emptySlot = 1;
-            for (int i = 1; i < shipSize; i++)
+            for (int i = 0; i < shipSize; i++)
             {
                 if (AITipsHelper[xCoordinate, yCoordinate + i] == 0)
                 {
@@ -249,7 +242,7 @@ namespace Torpedo_Project
                     break;
                 }
             }
-            for (int i = 1; i < shipSize; i++)
+            for (int i = 0; i < shipSize; i++)
             {
                 if (AITipsHelper[xCoordinate, yCoordinate - i] == 0)
                 {
@@ -290,10 +283,11 @@ namespace Torpedo_Project
                 randomPositionX = random.Next(1, shipType + 2);
                 randomPositionY = random.Next(1, 11);
             }
-            List<int> randomDatas = new List<int>() { randomPositionX, randomPositionY, isHorizontal};
+            List<int> randomDatas = new List<int>() { randomPositionX, randomPositionY, isHorizontal };
             return randomDatas;
 
         }
 
     }
 }
+

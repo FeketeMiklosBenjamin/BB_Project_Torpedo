@@ -21,7 +21,7 @@
             <Canvas x:Name="gameCanvas" Background="Beige">
             </Canvas>
         </Grid>
-        <Image x:Name="pic1" Source="/pictures/pic_1.jpg" Stretch="Uniform" Grid.Column="1" Margin="115,-45,0,74" Grid.RowSpan="2" Visibility="Visible"/>
+        <Image x:Name="pic1" Source="/pictures/pic_1.jpg" Stretch="Uniform" Grid.Column="1" Margin="115,-45,0,74" Grid.RowSpan="2" Visibility="Hidden"/>
         
         <Grid x:Name="shipsGrid" Grid.Column="1" Grid.Row="1" Margin="0,50,0,0">
             <Grid.Resources>
