@@ -29,4 +29,10 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="pictures\pic_1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

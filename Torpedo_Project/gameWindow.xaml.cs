@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Torpedo_Project
 {
@@ -24,6 +26,7 @@ namespace Torpedo_Project
     {
         private AI aIClass;
         private Game gameClass;
+        private DispatcherTimer picTimer;
 
         public gameWindow()
         {
@@ -48,7 +51,10 @@ namespace Torpedo_Project
                 AITip();
             }
         }
+        private void randomPic()
+        {
 
+        }
         private void startConfig()
         {
             ShowRemainingShips();
@@ -174,6 +180,11 @@ namespace Torpedo_Project
             label.HorizontalContentAlignment = HorizontalAlignment.Center;
             if (isHit && isDrowned)
             {
+                pic1.Visibility = Visibility.Visible;
+                picTimer = new DispatcherTimer();
+                picTimer.Interval = TimeSpan.FromSeconds(5);
+                picTimer.Tick += Timer_Tick;
+                picTimer.Start();
                 label.Content = "Talált és süllyedt!";
                 label.Foreground = new SolidColorBrush(Colors.Green);
             }
@@ -189,7 +200,11 @@ namespace Torpedo_Project
             }
             resultGrid.Children.Add(label);
         }
-
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            pic1.Visibility = Visibility.Hidden;
+            picTimer.Stop();
+        }
         private void DrawWinLabel(bool playerWins)
         {
             resultGrid.Children.Clear();
@@ -200,6 +215,7 @@ namespace Torpedo_Project
             label.HorizontalContentAlignment = HorizontalAlignment.Center;
             if (playerWins)
             {
+                
                 label.Content = "Győztél!";
                 label.Foreground = new SolidColorBrush(Colors.Green);
             }

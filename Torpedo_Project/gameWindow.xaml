@@ -21,6 +21,8 @@
             <Canvas x:Name="gameCanvas" Background="Beige">
             </Canvas>
         </Grid>
+        <Image x:Name="pic1" Source="/pictures/pic_1.jpg" Stretch="Uniform" Grid.Column="1" Margin="115,-45,0,74" Grid.RowSpan="2" Visibility="Visible"/>
+        
         <Grid x:Name="shipsGrid" Grid.Column="1" Grid.Row="1" Margin="0,50,0,0">
             <Grid.Resources>
                 <Style TargetType="Label">
@@ -57,7 +59,7 @@
             <Rectangle Grid.Row="0" Grid.Column="5" Width="30" Fill="Violet" Stroke="Black"/>
         </Grid>
         <Grid x:Name="resultGrid" Grid.Row="2" Grid.Column="1">
-            
+
         </Grid>
 
 
